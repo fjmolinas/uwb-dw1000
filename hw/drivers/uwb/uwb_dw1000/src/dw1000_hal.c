@@ -310,7 +310,7 @@ hal_dw1000_read(struct _dw1000_dev_instance_t * inst,
 
     hal_gpio_write(inst->ss_pin, 0);
 
-#if !defined(MYNEWT)
+#if !defined(MYNEWT) && !defined(RIOT)
     /* Linux mode really, for when we can't split the command and data */
     assert(cmd_size + length < inst->uwb_dev.txbuf_size);
     assert(cmd_size + length < MYNEWT_VAL(DW1000_HAL_SPI_MAX_CNT));
@@ -322,7 +322,7 @@ hal_dw1000_read(struct _dw1000_dev_instance_t * inst,
                       inst->uwb_dev.txbuf, cmd_size+length);
     memcpy(buffer, inst->uwb_dev.txbuf + cmd_size, length);
 #else
-    rc = hal_spi_txrx(inst->spi_num, (void*)cmd, 0, cmd_size);
+    rc = hal_spi_txrx(inst->spi_num, (void*)cmd, NULL, cmd_size);
     assert(rc == DPL_OK);
     int step = (inst->uwb_dev.txbuf_size > MYNEWT_VAL(DW1000_HAL_SPI_MAX_CNT)) ?
         MYNEWT_VAL(DW1000_HAL_SPI_MAX_CNT) : inst->uwb_dev.txbuf_size;
@@ -537,7 +537,7 @@ hal_dw1000_write(struct _dw1000_dev_instance_t * inst, const uint8_t * cmd, uint
 
     hal_gpio_write(inst->ss_pin, 0);
 
-#if !defined(MYNEWT)
+#if !defined(MYNEWT) && !defined(RIOT)
     /* Linux mode really, for when we can't split the command and data */
     assert(cmd_size + length < inst->uwb_dev.txbuf_size);
     assert(cmd_size + length < MYNEWT_VAL(DW1000_HAL_SPI_MAX_CNT));
@@ -549,10 +549,10 @@ hal_dw1000_write(struct _dw1000_dev_instance_t * inst, const uint8_t * cmd, uint
                       0, cmd_size+length);
     assert(rc == DPL_OK);
 #else
-    rc = hal_spi_txrx(inst->spi_num, (void*)cmd, 0, cmd_size);
+    rc = hal_spi_txrx(inst->spi_num, (void*)cmd, NULL, cmd_size);
     assert(rc == DPL_OK);
     if (length) {
-        hal_spi_txrx(inst->spi_num, (void*)buffer, 0, length);
+        hal_spi_txrx(inst->spi_num, (void*)buffer, NULL, length);
     }
 #endif
 
