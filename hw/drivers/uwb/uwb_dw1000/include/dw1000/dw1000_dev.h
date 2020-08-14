@@ -204,6 +204,7 @@ typedef struct _dw1000_dev_instance_t{
     /* To allow translation from ticks to usecs in gdb during backtrace*/
     uint32_t bt_ticks2usec;
 #endif
+    struct _dw1000_dev_instance_t* next;
 } dw1000_dev_instance_t;
 
 //! SPI and other init parameters
