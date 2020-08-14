@@ -262,6 +262,8 @@ hal_dw1000_inst(uint8_t idx)
     return 0;
 }
 
+#endif
+
 /**
  * API to reset all the gpio pins.
  *
@@ -756,5 +758,3 @@ hal_dw1000_get_rst(struct _dw1000_dev_instance_t * inst)
 {
     return hal_gpio_read(inst->rst_pin);
 }
-
-#endif
