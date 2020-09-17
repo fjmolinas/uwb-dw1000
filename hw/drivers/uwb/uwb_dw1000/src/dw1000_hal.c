@@ -715,7 +715,7 @@ int
 hal_dw1000_wakeup(struct _dw1000_dev_instance_t * inst)
 {
     int rc = DPL_OK;
-    os_sr_t sr;
+    dpl_sr_t sr;
     assert(inst->spi_sem);
     rc = dpl_sem_pend(inst->spi_sem, DPL_TIMEOUT_NEVER);
     if (rc != DPL_OK) {
