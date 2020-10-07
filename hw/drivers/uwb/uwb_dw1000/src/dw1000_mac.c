@@ -1841,25 +1841,25 @@ dpl_float32_t
 dw1000_calc_fppl(struct _dw1000_dev_instance_t * inst,
                  struct _dw1000_dev_rxdiag_t * diag)
 {
-    dpl_float32_t A, N, v, fppl;
+    dpl_float32_t A, n, v, fppl;
     if (diag->pacc_cnt == 0 ||
         (!diag->fp_amp && !diag->fp_amp2 && !diag->fp_amp3)) {
         return DPL_FLOAT32_NAN();
     }
     A = (inst->uwb_dev.config.prf == DWT_PRF_16M) ? DPL_FLOAT32_INIT(113.77f) : DPL_FLOAT32_INIT(121.74f);
 #ifdef __KERNEL__
-    N = ui32_to_f32(diag->pacc_cnt);
+    n = ui32_to_f32(diag->pacc_cnt);
     v = f32_add(f32_add(ui32_to_f32(diag->fp_amp*diag->fp_amp),
                         ui32_to_f32(diag->fp_amp2*diag->fp_amp2)),
                 ui32_to_f32(diag->fp_amp3*diag->fp_amp3));
-    v = f32_div(v, f32_mul(N, N));
+    v = f32_div(v, f32_mul(n, n));
     fppl = f32_sub(f32_mul(DPL_FLOAT32_INIT(10.0), f64_to_f32(log10_soft(f32_to_f64(v)))), A);
 #else
-    N = (float)(diag->pacc_cnt);
+    n = (float)(diag->pacc_cnt);
     v = (float)(diag->fp_amp*diag->fp_amp) +
         (float)(diag->fp_amp2*diag->fp_amp2) +
         (float)(diag->fp_amp3*diag->fp_amp3);
-    v /= N * N;
+    v /= n * n;
     fppl = 10.0f * log10f(v) - A;
 #endif
     return fppl;
