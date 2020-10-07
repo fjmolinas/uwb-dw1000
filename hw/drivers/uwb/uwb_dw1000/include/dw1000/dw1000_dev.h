@@ -214,9 +214,9 @@ struct dw1000_dev_cfg {
     int spi_baudrate;             //!< SPI Baudrate (<20MHz)
     int spi_baudrate_low;         //!< Low SPI Baudrate (<2MHz)
     uint8_t spi_num;              //!< SPI number
-    uint8_t rst_pin;              //!< Reset pin
-    uint8_t irq_pin;              //!< Interrupt request pin
-    uint8_t ss_pin;               //!< Slave select pin
+    gpio_t rst_pin;               //!< Reset pin
+    gpio_t irq_pin;               //!< Interrupt request pin
+    gpio_t ss_pin;                //!< Slave select pin
 
     uint16_t rx_antenna_delay;    //!< Receive antenna delay
     uint16_t tx_antenna_delay;    //!< Transmit antenna delay
